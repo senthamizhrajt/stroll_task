@@ -14,3 +14,8 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+Steps to run the project:
+
+1. After running flutter pub get, go to Edit Configuration and make the dart entry file points to lib/main_dev.dart

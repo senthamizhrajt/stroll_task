@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import 'app_progress_indicator.dart';
 
 class AppButton extends StatefulWidget {
   final VoidCallback? onPressed;
@@ -169,13 +168,7 @@ class AppButtonState extends State<AppButton> {
               return ScaleTransition(scale: animation, child: child);
             },
             duration: const Duration(milliseconds: 200),
-            child: widget.isProgressing
-                ? AppProgressIndicator(
-                    width: widget.progressIndicatorSize,
-                    height: widget.progressIndicatorSize,
-                    color: widget.progressIndicatorColor,
-                  )
-                : widget.text != null
+            child: widget.text != null
                     ? Text(widget.text!, style: widget.style)
                     : widget.child),
       ),

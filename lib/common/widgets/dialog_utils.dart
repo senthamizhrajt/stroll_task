@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../core/l10n/strings.dart';
 import 'app_button.dart';
 
 class DialogUtils {

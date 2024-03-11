@@ -1,3 +1,3 @@
 class PKeys {
-  static const user = 'user';
+  //shared preference keys goes here
 }
