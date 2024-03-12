@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:stroll_task/common/widgets/user_picture.dart';
 
+import '../../../common/routes/routes.dart';
 import '../../../common/widgets/base_stateful_widget.dart';
 import '../../../common/widgets/text_image.dart';
+import '../../../core/navigation/navigation_handler.dart';
 import 'custom/answer_toggle_buttons.dart';
 import '../../../core/l10n/strings.dart';
 import '../../../core/theme/app_colors.dart';
@@ -28,11 +31,13 @@ class _ProfileOnBoardingScreenState extends BaseWidgetState<ProfileOnBoardingScr
       ),
       body: Stack(
         children: [
-          Positioned(
-            bottom: 0,
+          FractionallySizedBox(
+            heightFactor: 0.75,
+            widthFactor: 1,
             child: Image.asset(
               'assets/graphics/sunset.jpeg',
               fit: BoxFit.cover,
+              alignment: Alignment.topCenter,
             ),
           ),
           Stack(
@@ -164,16 +169,9 @@ class _ProfileOnBoardingScreenState extends BaseWidgetState<ProfileOnBoardingScr
                     )
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 28),
-                  child: CircleAvatar(
-                    backgroundColor: const Color(0xFF121517),
-                    radius: 30,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Image.asset('assets/graphics/Image.png'),
-                    ),
-                  ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 28),
+                  child: UserPicture.asset(path: 'assets/graphics/Image.png'),
                 ),
               ],
             ),
@@ -211,7 +209,9 @@ class _ProfileOnBoardingScreenState extends BaseWidgetState<ProfileOnBoardingScr
                   Row(
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          NavigationHandler().push(context, Routes.profileVoiceMatchingScreen);
+                        },
                         child: SvgPicture.asset(
                           'assets/icons/voice.svg',
                         ),

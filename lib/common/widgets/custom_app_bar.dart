@@ -54,38 +54,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: height,
       titleSpacing: titleSpacing,
-      bottom: !showBottom ? null : bottom ?? const PreferredSize(preferredSize: Size(0, 1), child: Divider(thickness: 1, height: 1)),
+      bottom: !showBottom ? null : bottom,
       shape: shape,
       elevation: 0,
       shadowColor: Theme.of(context).shadowColor,
       backgroundColor: backgroundColor ?? Theme.of(context).appBarTheme.backgroundColor,
       centerTitle: centerTitle != null ? centerTitle! : Platform.isIOS,
       leading: leading,
-      /*leading: ModalRoute.of(context)!.canPop || navButtonIcon != null
-          ? IconButton(
-              padding: const EdgeInsets.all(16),
-              icon: navButtonIcon == null
-                  ? isClosable
-                      ? Icon(
-                          Icons.close,
-                          color: Theme.of(context).appBarTheme.iconTheme!.color,
-                        )
-                      : (Platform.isAndroid
-                          ? Icon(
-                              Icons.arrow_back_rounded,
-                              color: Theme.of(context).appBarTheme.iconTheme!.color,
-                            )
-                          : Icon(
-                              Icons.arrow_back_ios_new_rounded,
-                              color: Theme.of(context).appBarTheme.iconTheme!.color,
-                            ))
-                  : navButtonIcon!,
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          : const SizedBox.shrink(),*/
-      //leadingWidth: ModalRoute.of(context)!.canPop || navButtonIcon != null ? null : 0,
       leadingWidth: leadingWidth,
       iconTheme: Theme.of(context).appBarTheme.iconTheme,
       title: title != null
@@ -94,7 +69,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ? (centerTitle! ? CrossAxisAlignment.center : CrossAxisAlignment.start)
                   : (Platform.isIOS ? CrossAxisAlignment.center : CrossAxisAlignment.start),
               children: [
-                Text(title!, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: titleTextSize, fontWeight: FontWeight.w500)),
+                Text(title!, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: titleTextSize, fontWeight: FontWeight.w700)),
                 subtitleWidget ??
                     (subtitle != null && subtitle!.isNotEmpty
                         ? Padding(

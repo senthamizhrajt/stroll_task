@@ -11,7 +11,11 @@ enum Strings {
   option4,
   questionInfoText,
   userAnswer,
-  screenTitle
+  screenTitle,
+  strollQuestion,
+  delete,
+  submit,
+  unMatch
 }
 
 extension TKeysExtension on Strings {

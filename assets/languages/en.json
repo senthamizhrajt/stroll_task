@@ -10,5 +10,9 @@
   "option4": "The serenity past midnight",
   "questionInfoText": "Pick your option.\nSee who has a similar mind.",
   "userAnswer": "\"Mine is definitely the peace in the morning.\"",
-  "screenTitle": "Stroll Bonfire"
+  "screenTitle": "Stroll Bonfire",
+  "strollQuestion": "Stroll Question",
+  "delete": "Delete",
+  "submit": "Submit",
+  "unMatch": "Unmatch"
 }
