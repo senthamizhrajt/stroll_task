@@ -9,7 +9,8 @@ import '../../../common/widgets/user_picture.dart';
 import '../../../core/l10n/strings.dart';
 import '../../../core/theme/app_colors.dart';
 import '../provider/voice_record_state_provider.dart';
-import 'painters/wave_form_painter.dart';
+import 'painters/player_wave_form_painter.dart';
+import 'painters/recorder_wave_form_painter.dart';
 
 class ProfileVoiceMatchingScreen extends BaseStatefulWidget {
   const ProfileVoiceMatchingScreen({super.key});
@@ -153,12 +154,18 @@ class _ProfileVoiceMatchingScreenState extends BaseWidgetState {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            ClipRRect(
-                              child: CustomPaint(
-                                size: Size(MediaQuery.of(context).size.width - 32, 55.0),
-                                painter: WaveformPainter(provider.amplitudeList, 40, Theme.of(context).secondaryHeaderColor.withOpacity(0.3)),
-                              ),
-                            ),
+                            AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 100),
+                              transitionBuilder: (child, animation) {
+                                return ScaleTransition(alignment: Alignment.center, scale: animation, child: child);
+                              },
+                              child: provider.state == RecorderState.playing ||
+                                      provider.state == RecorderState.stopped ||
+                                      provider.state == RecorderState.completed ||
+                                      provider.state == RecorderState.paused
+                                  ? _audioPlayer(provider.filePath, provider.amplitudeList, provider.currentAmplitudeIndex)
+                                  : _audioRecorder(provider.amplitudeList),
+                            )
                             //Container(height: 1, color: Colors.transparent),
                           ],
                         ),
@@ -254,6 +261,33 @@ class _ProfileVoiceMatchingScreenState extends BaseWidgetState {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(2000),
         color: isActive ? Colors.white : Colors.white24,
+      ),
+    );
+  }
+
+  Widget _audioRecorder(final List<double> amplitudeList) {
+    return ClipRRect(
+      key: const ValueKey<int>(0),
+      child: CustomPaint(
+        size: Size(MediaQuery.of(context).size.width - 32, 55.0),
+        painter: RecorderWaveformPainter(amplitudeList, 40, Theme.of(context).secondaryHeaderColor.withOpacity(0.3)),
+      ),
+    );
+  }
+
+  Widget _audioPlayer(final String? audioPath, final List<double> amplitudeList, final int activeAmplitudeIndex) {
+    if (audioPath == null) return const Text('Not valid audio file');
+    return ClipRRect(
+      key: const ValueKey<int>(1),
+      child: CustomPaint(
+        size: Size(MediaQuery.of(context).size.width - 32, 55.0),
+        painter: PlayerWaveformPainter(
+          amplitudeList,
+          40,
+          Theme.of(context).secondaryHeaderColor.withOpacity(0.3),
+          activeAmplitudeIndex,
+          AppColors.accentColor,
+        ),
       ),
     );
   }

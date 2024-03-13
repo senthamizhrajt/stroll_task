@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class WaveformPainter extends CustomPainter {
+class RecorderWaveformPainter extends CustomPainter {
   final List<double> dBFSValues;
   final double maxAmplitude;
   final Color color;
 
-  WaveformPainter(this.dBFSValues, this.maxAmplitude, this.color);
+  RecorderWaveformPainter(this.dBFSValues, this.maxAmplitude, this.color);
 
   @override
   void paint(Canvas canvas, Size size) {

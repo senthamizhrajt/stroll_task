@@ -16,6 +16,7 @@ class VoiceRecordStateProvider with ChangeNotifier {
   StreamSubscription<Amplitude>? _amplitudeSub;
   final List<double> amplitudeList = List.empty(growable: true);
   Timer? _recordTimer, _playTimer;
+  int currentAmplitudeIndex = -1;
   final AudioPlayer _player = AudioPlayer();
 
   void startRecording() async {
@@ -30,14 +31,14 @@ class VoiceRecordStateProvider with ChangeNotifier {
 
       await _recorder.start(const RecordConfig(encoder: AudioEncoder.wav, noiseSuppress: true), path: fil);
       _startRecordTimer();
+
+      _amplitudeSub = _recorder.onAmplitudeChanged(const Duration(milliseconds: 200)).listen((amp) {
+        amplitudeList.add(amp.current.abs() > 45 ? 45 : amp.current.abs());
+      });
+
+      state = RecorderState.recording;
+      notifyListeners();
     }
-
-    _amplitudeSub = _recorder.onAmplitudeChanged(const Duration(milliseconds: 200)).listen((amp) {
-      amplitudeList.add(amp.current.abs() > 45 ? 45 : amp.current.abs());
-    });
-
-    state = RecorderState.recording;
-    notifyListeners();
   }
 
   void stopRecording() async {
@@ -51,7 +52,7 @@ class VoiceRecordStateProvider with ChangeNotifier {
   void playCurrentRecording() async {
     state = RecorderState.playing;
     _player.onDurationChanged.listen((updatedDuration) {
-      notifyListeners();
+      //notifyListeners();
     });
     _player.onPositionChanged.listen((newPosition) {
       playingDurationInSeconds = newPosition.inSeconds;
@@ -60,8 +61,11 @@ class VoiceRecordStateProvider with ChangeNotifier {
 
     await _player.play(DeviceFileSource(filePath!),
         position: _player.state == PlayerState.paused ? await _player.getCurrentPosition() : Duration.zero);
+    _startPlayTimer();
+
     _player.onPlayerComplete.listen((event) {
       pauseCurrentRecording();
+      currentAmplitudeIndex = -1;
       state = RecorderState.completed;
     });
     notifyListeners();
@@ -85,13 +89,11 @@ class VoiceRecordStateProvider with ChangeNotifier {
     });
   }
 
-  void _startPlayTimer(RecorderState previousState) {
+  void _startPlayTimer() {
     _playTimer?.cancel();
 
-    if (previousState == RecorderState.completed) playingDurationInSeconds = 0;
-
-    _playTimer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-      playingDurationInSeconds++;
+    _playTimer = Timer.periodic(const Duration(milliseconds: 200), (Timer t) {
+      currentAmplitudeIndex++;
       notifyListeners();
     });
   }

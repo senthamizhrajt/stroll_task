@@ -1,13 +1,11 @@
 import 'dev_config.dart';
 import 'prod_config.dart';
-import 'url_path.dart';
 
 enum Environment { DEV, STAGING, PROD }
 
 class AppConfig {
   static String appName = DevConfig.APP_NAME;
   static bool isProduction = DevConfig.IS_PRODUCTION;
-  static UrlPath urlPath = DevConfig.URL_PATH;
 
   static Future<void> setEnvironment(Environment env) async {
     switch (env) {
@@ -28,6 +26,5 @@ class AppConfig {
   static _copyFromProductionConfig() {
     appName = ProductionConfig.appName;
     isProduction = ProductionConfig.isProduction;
-    urlPath = ProductionConfig.urlPath;
   }
 }

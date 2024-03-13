@@ -45,13 +45,6 @@ class AppLocalizations {
 
   static const LocalizationsDelegate<AppLocalizations> delegate = _LocalizationServiceDelegate();
   static const LocalizationsDelegate<AppLocalizations> fileDelegate = LocalizationFileDelegate();
-
-  /*static const localizationsDelegate = [
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    _delegate
-  ];*/
 }
 
 class _LocalizationServiceDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -59,7 +52,7 @@ class _LocalizationServiceDelegate extends LocalizationsDelegate<AppLocalization
 
   @override
   bool isSupported(Locale locale) {
-    return ['en', 'ta'].contains(locale.languageCode);
+    return ['en'].contains(locale.languageCode);
   }
 
   @override
@@ -80,7 +73,7 @@ class LocalizationFileDelegate extends LocalizationsDelegate<AppLocalizations> {
 
   @override
   bool isSupported(Locale locale) {
-    return ['en', 'ta'].contains(locale.languageCode);
+    return ['en'].contains(locale.languageCode);
   }
 
   @override
@@ -95,69 +88,3 @@ class LocalizationFileDelegate extends LocalizationsDelegate<AppLocalizations> {
     return false;
   }
 }
-
-/*class LocalizationController extends GetxController {
-  String currentLanguage = ''.obs.toString();
-
-  final box = GetStorage();
-  bool directionRTL = true;
-  void engLanguage() async {
-    currentLanguage = 'en';
-    box.write('lang', 'en');
-    // final prefs = await SharedPreferences.getInstance();
-    // await prefs.setString('language', 'en');
-    debugPrint("lang is updated:${box.read('lang')}");
-
-    update();
-  }
-
-  void hebLanguage() async {
-    currentLanguage = 'he';
-    box.write('lang', 'he');
-    // final prefs = await SharedPreferences.getInstance();
-    // await prefs.setString('language', 'he');
-    debugPrint("lang is updated:${box.read('lang')}");
-
-    update();
-  }
-
-  void ruLanguage() async {
-    currentLanguage = 'ru';
-    box.write('lang', 'ru');
-    // final prefs = await SharedPreferences.getInstance();
-    // await prefs.setString('language', 'he');
-    debugPrint("lang is updated:${box.read('lang')}");
-
-    update();
-  }
-
-  void spLanguage() async {
-    currentLanguage = 'es';
-    box.write('lang', 'es');
-    // final prefs = await SharedPreferences.getInstance();
-    // await prefs.setString('language', 'he');
-    debugPrint("lang is updated:${box.read('lang')}");
-
-    update();
-  }
-
-  void arLanguage() async {
-    currentLanguage = 'ar';
-    box.write('lang', 'ar');
-    // final prefs = await SharedPreferences.getInstance();
-    // await prefs.setString('language', 'he');
-    debugPrint("lang is updated:${box.read('lang')}");
-
-    update();
-  }
-
-  void directionRtl() {
-    directionRTL = true;
-    update();
-  }
-
-  void dirctionLtr() {
-    directionRTL = false;
-    update();
-  }
-}*/
