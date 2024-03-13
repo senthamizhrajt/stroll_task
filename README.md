@@ -2,10 +2,10 @@
 
 A new Flutter project.
 
-Flutter 3.16.4 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision 2e9cb0aa71 (3 months ago) • 2023-12-11 14:35:13 -0700
-Engine • revision 54a7145303
-Tools • Dart 3.2.3 • DevTools 2.28.4
+Flutter 3.16.0 • channel [user-branch] • unknown source
+Framework • revision db7ef5bf9f (4 months ago) • 2023-11-15 11:25:44 -0800
+Engine • revision 74d16627b9
+Tools • Dart 3.2.0 • DevTools 2.28.2
 
 
 Steps to run the project:
