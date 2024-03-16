@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:stroll_task/common/widgets/user_picture.dart';
+import 'package:stroll_task/features/profile/model/explore_screen_arugments.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../../common/routes/routes.dart';
+import '../../../common/widgets/app_button.dart';
 import '../../../common/widgets/base_stateful_widget.dart';
 import '../../../common/widgets/text_image.dart';
 import '../../../core/navigation/navigation_handler.dart';
@@ -21,6 +24,20 @@ class ProfileOnBoardingScreen extends BaseStatefulWidget {
 }
 
 class _ProfileOnBoardingScreenState extends BaseWidgetState<ProfileOnBoardingScreen> {
+  late WeakReference<VideoPlayerController> _videoController;
+
+  @override
+  void initState() {
+    super.initState();
+    _prepareVideoPlayer();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _videoController.target?.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -218,7 +235,28 @@ class _ProfileOnBoardingScreenState extends BaseWidgetState<ProfileOnBoardingScr
                       ),
                       const SizedBox(width: 8),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          if (_videoController.target == null || !_videoController.target!.value.isInitialized) {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text('Attention'),
+                                    content: const Text('Video is loaded yet. Please wait for the video to be loaded and try again.'),
+                                    actions: [
+                                      AppButton.accent(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        text: 'Close',
+                                      )
+                                    ],
+                                  );
+                                });
+                            return;
+                          }
+                          NavigationHandler().push(context, Routes.profilesExploreScreen, arguments: ExploreScreenArguments(_videoController));
+                        },
                         child: SvgPicture.asset(
                           'assets/icons/right_arrow.svg',
                         ),
@@ -232,5 +270,18 @@ class _ProfileOnBoardingScreenState extends BaseWidgetState<ProfileOnBoardingScr
         ),
       ),
     );
+  }
+
+  _prepareVideoPlayer() async {
+    _videoController = WeakReference(VideoPlayerController.asset(
+      //Uri.parse('https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'),
+      'assets/videos/background_video.mp4',
+      videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true, mixWithOthers: true),
+    ));
+
+    _videoController.target?.setLooping(true);
+    _videoController.target?.initialize().then((_) {
+      _videoController.target?.seekTo(const Duration(seconds: 2));
+    });
   }
 }
