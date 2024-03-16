@@ -87,6 +87,8 @@ class _StrollExploreScreenState extends BaseWidgetState<StrollExploreScreen> wit
           InteractiveViewer(
             transformationController: viewTransformationController,
             constrained: false,
+            minScale: 1,
+            maxScale: 5,
             child: Stack(
               children: [
                 SingleChildScrollView(
